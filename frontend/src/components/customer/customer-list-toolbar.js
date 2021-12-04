@@ -108,7 +108,7 @@ export const CustomerListToolbar = (props) => (
                 startIcon={(<UploadIcon fontSize="small" />)}
                 sx={{ mr: 1, marginTop: 2 }}
               >
-                Import
+                Загрузка
               </Button>
             </label>
             {/* <TextField
