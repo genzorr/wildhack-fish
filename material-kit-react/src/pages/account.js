@@ -4,11 +4,11 @@ import { AccountProfile } from '../components/account/account-profile';
 import { AccountProfileDetails } from '../components/account/account-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 
-const Account = () => (
+const Analytics = () => (
   <>
     <Head>
       <title>
-        Account | Material Kit
+        Аналитика
       </title>
     </Head>
     <Box
@@ -23,7 +23,7 @@ const Account = () => (
           sx={{ mb: 3 }}
           variant="h4"
         >
-          Account
+          Аналитика
         </Typography>
         <Grid
           container
@@ -51,10 +51,10 @@ const Account = () => (
   </>
 );
 
-Account.getLayout = (page) => (
+Analytics.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Account;
+export default Analytics;
