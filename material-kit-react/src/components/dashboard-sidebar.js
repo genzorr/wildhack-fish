@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
+import { Box, Button, Divider, Drawer, List, Typography, useMediaQuery } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { ChartBar as ChartBarIcon } from '../icons/chart-bar';
 import { Cog as CogIcon } from '../icons/cog';
@@ -15,48 +15,59 @@ import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
+import DataIcon from 'src/icons/data-icon';
+import HelpIcon from 'src/icons/help';
+
+import { ListItem } from '@mui/material';
+
+const helpItem = {
+  icon: (<HelpIcon fontSize="small" />),
+  href: '/help',
+  title: 'Помощь',
+};
+
 
 const items = [
   {
     href: '/',
     icon: (<ChartBarIcon fontSize="small" />),
-    title: 'Dashboard'
+    title: 'Аналитика'
   },
   {
     href: '/customers',
-    icon: (<UsersIcon fontSize="small" />),
-    title: 'Customers'
+    icon: (<DataIcon fontSize="small" />),
+    title: 'Загруженные выборки'
   },
-  {
-    href: '/products',
-    icon: (<ShoppingBagIcon fontSize="small" />),
-    title: 'Products'
-  },
-  {
-    href: '/account',
-    icon: (<UserIcon fontSize="small" />),
-    title: 'Account'
-  },
-  {
-    href: '/settings',
-    icon: (<CogIcon fontSize="small" />),
-    title: 'Settings'
-  },
-  {
-    href: '/login',
-    icon: (<LockIcon fontSize="small" />),
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: (<UserAddIcon fontSize="small" />),
-    title: 'Register'
-  },
-  {
-    href: '/404',
-    icon: (<XCircleIcon fontSize="small" />),
-    title: 'Error'
-  }
+  // {
+  //   href: '/customers',
+  //   icon: (<UsersIcon fontSize="small" />),
+  //   title: 'Customers'
+  // },
+  // {
+  //   href: '/products',
+  //   icon: (<ShoppingBagIcon fontSize="small" />),
+  //   title: 'Products'
+  // },
+  // {
+  //   href: '/account',
+  //   icon: (<UserIcon fontSize="small" />),
+  //   title: 'Account'
+  // },
+  // {
+  //   href: '/settings',
+  //   icon: (<CogIcon fontSize="small" />),
+  //   title: 'Settings'
+  // },
+  // {
+  //   href: '/login',
+  //   icon: (<LockIcon fontSize="small" />),
+  //   title: 'Login'
+  // },
+  // {
+  //   href: '/register',
+  //   icon: (<UserAddIcon fontSize="small" />),
+  //   title: 'Register'
+  // }
 ];
 
 export const DashboardSidebar = (props) => {
@@ -87,11 +98,18 @@ export const DashboardSidebar = (props) => {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100%'
+          height: '100%',
+
         }}
       >
         <div>
-          <Box sx={{ p: 3 }}>
+          <Box sx={{
+            alignItems: 'center',
+            display: 'flex',
+            px: 3,
+            py: "11px",
+            paddingBottom: "1px"
+          }}>
             <NextLink
               href="/"
               passHref
@@ -99,14 +117,25 @@ export const DashboardSidebar = (props) => {
               <a>
                 <Logo
                   sx={{
-                    height: 42,
-                    width: 42
+                    height: 31,
+                    width: 36
+
                   }}
                 />
               </a>
             </NextLink>
+
+            <Typography
+              color="neutral.300"
+              variant="subtitle1"
+              sx={{
+                px: 2
+              }}
+            >
+              WildHack Fish
+            </Typography>
           </Box>
-          <Box sx={{ px: 2 }}>
+          {/* <Box sx={{ px: 2 }}>
             <Box
               sx={{
                 alignItems: 'center',
@@ -142,16 +171,17 @@ export const DashboardSidebar = (props) => {
                   height: 14
                 }}
               />
-            </Box>
-          </Box>
+              </Box> 
+              </Box> */ }
         </div>
         <Divider
           sx={{
             borderColor: '#2D3748',
-            my: 3
+            my: 1
           }}
         />
-        <Box sx={{ flexGrow: 1 }}>
+
+        <Box sx={{ flexGrow: 1, paddingTop: '4px' }}>
           {items.map((item) => (
             <NavItem
               key={item.title}
@@ -161,8 +191,50 @@ export const DashboardSidebar = (props) => {
             />
           ))}
         </Box>
-        <Divider sx={{ borderColor: '#2D3748' }} />
-        <Box
+
+        <NavItem
+              key={helpItem.title}
+              icon={helpItem.icon}
+              href={helpItem.href}
+              title={helpItem.title}
+            />
+
+        {/* <Divider
+          sx={{
+            borderColor: '#2D3748',
+            my: 3
+          }}
+        /> */}
+        {/* <Box sx={{ flexGrow: 1 }}>
+          {itemsAdditional.map((addItem) => {
+            {console.log("${addItem} executed")}
+            <NavItem
+              key={addItem.title}
+              icon={addItem.icon}
+              href={addItem.href}
+              title={addItem.title}
+            />
+          })}
+        </Box> */}
+
+
+
+        {/* <Box sx={{ flexGrow: 1 }}>
+          {items.map((item) => (
+            <NavItem
+              key={item.title}
+              icon={item.icon}
+              href={item.href}
+              title={item.title}
+            />
+          ))}
+        </Box> */}
+
+
+        {/* <Typography color="neutral.100"
+          variant="subtitle2">Немного рандомного текста</Typography> */}
+
+        {/* <Box
           sx={{
             px: 2,
             py: 3
@@ -172,7 +244,7 @@ export const DashboardSidebar = (props) => {
             color="neutral.100"
             variant="subtitle2"
           >
-            Need more features?
+            Помощь
           </Typography>
           <Typography
             color="neutral.500"
@@ -211,7 +283,7 @@ export const DashboardSidebar = (props) => {
               Pro Live Preview
             </Button>
           </NextLink>
-        </Box>
+        </Box> */}
       </Box>
     </>
   );
