@@ -2,3 +2,8 @@ static/frontend
 venv
 .idea
 __pycache__
+frontend/out
+build
+dist
+*.pt
+data
