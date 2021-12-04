@@ -1,9 +1,8 @@
 import { Bar } from 'react-chartjs-2';
-import { Box,Button, Card, CardContent, CardHeader, Dialog, DialogActions, Divider, FormControl, useTheme } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { Box, Button, Card, CardContent, CardHeader, Dialog, DialogActions, Divider, FormControl, MenuList, Typography, useTheme } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useState } from 'react';
-
+import DropDownButton from '../dropdown-button';
 export const Statistics = (props) => {
   const theme = useTheme();
 
@@ -91,31 +90,10 @@ export const Statistics = (props) => {
   return (
     <Card {...props}>
       <CardHeader
-        action={(
-      //     <FormControl fullWidth>
-      //   <InputLabel id="demo-simple-select-label">Age</InputLabel>
-      //   <Select
-      //     labelId="demo-simple-select-label"
-      //     id="demo-simple-select"
-      //     value={age}
-      //     label="Age"
-      //     onChange={handleChange}
-      //   >
-      //     <MenuItem value={10}>Ten</MenuItem>
-      //     <MenuItem value={20}>Twenty</MenuItem>
-      //     <MenuItem value={30}>Thirty</MenuItem>
-      //   </Select>
-      // </FormControl>
-
-    
-          <Button
-            endIcon={<ArrowDropDownIcon fontSize="small" />}
-            size="small"
-            onClick={() => {setAge(12); console.log("set to 12")}}
-          >
+        action={(   
+          <DropDownButton selectionItems={[{name: "Last month"},{name: "Last year"}]}>
             Last 7 days
-          </Button>
-          
+          </DropDownButton>
         )}
         title="Latest Statistics
       "
@@ -147,7 +125,7 @@ export const Statistics = (props) => {
           endIcon={<ArrowRightIcon fontSize="small" />}
           size="small"
         >
-          Overview
+          <Typography>Overview</Typography>
         </Button>
       </Box>
     </Card>

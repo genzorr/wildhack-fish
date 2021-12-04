@@ -27,7 +27,7 @@ const Dashboard = () => (
       <Container maxWidth={false}>
         <Grid
           container
-          spacing={3}
+          spacing={4}
         >
           {/* <Grid
             item
