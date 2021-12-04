@@ -6,6 +6,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
+import NextLink from 'next/link';
+import { Button } from '@mui/material';
+
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -52,11 +55,12 @@ export const DashboardNavbar = (props) => {
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Contacts">
+          {/* <Tooltip title="Contacts">
             <IconButton sx={{ ml: 1 }}>
               <UsersIcon fontSize="small" />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
+          { /* TODO use: notification to show progress of calculation or when the result is ready */}
           <Tooltip title="Notifications">
             <IconButton sx={{ ml: 1 }}>
               <Badge
@@ -68,16 +72,32 @@ export const DashboardNavbar = (props) => {
               </Badge>
             </IconButton>
           </Tooltip>
-          <Avatar
-            sx={{
-              height: 40,
-              width: 40,
-              ml: 1
-            }}
-            src="/static/images/avatars/avatar_1.png"
-          >
-            <UserCircleIcon fontSize="small" />
-          </Avatar>
+
+          <Tooltip title="Profile">
+            <IconButton sx={{ ml: 1 }}>
+              <NextLink
+                href={"/"}
+                passHref
+              >
+
+                <Avatar
+                  sx={{
+                    height: 40,
+                    width: 40,
+                    ml: 1,
+                    width: 24,
+                    height: 24
+                  }}
+                  src="/static/images/krono-forest.jpeg"
+                >
+                  <UserCircleIcon fontSize="small" />
+                </Avatar>
+              </NextLink>
+            </IconButton>
+
+          </Tooltip>
+
+
         </Toolbar>
       </DashboardNavbarRoot>
     </>
