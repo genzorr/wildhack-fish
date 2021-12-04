@@ -30,31 +30,23 @@ export const CustomerListToolbar = (props) => (
         display: 'flex',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        m: -1
+        m: -1,
+      
       }}
     >
       <Typography
-        sx={{ m: 1 }}
+        sx={{ m: 0 }}
         variant="h4"
       >
-        Customers
+        Анализ данных
       </Typography>
+      <Typography sx={{ mt: 1}} variant="h5">
+        Загрузить новые данные
+        </Typography>
       <Box sx={{ m: 1 }}>
-        {/* <label htmlFor="contained-button-file">
-          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-          <Button variant="contained" component="span">
-            Upload
-          </Button>
-          <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Import
-        </Button>
-        </label>
-         */}
         <label htmlFor="text-button-file">
-            <Input accept="image/*" id="text-button-file" multiple type="file" />
+            <Input onChange={(event)=> { 
+               console.log(event)}} accept="image/*" id="text-button-file" multiple type="file" />
             <Button
               variant="text" component="span"
               startIcon={(<UploadIcon fontSize="small" />)}
@@ -73,7 +65,7 @@ export const CustomerListToolbar = (props) => (
           color="primary"
           variant="contained"
         >
-          Add Customers
+          Анализ данных
         </Button>
       </Box>
     </Box>
