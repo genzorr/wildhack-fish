@@ -91,7 +91,7 @@ export const Statistics = (props) => {
     <Card {...props}>
       <CardHeader
         action={(   
-          <DropDownButton selectionItems={[{name: "Last month"},{name: "Last year"}]}>
+          <DropDownButton selectionItems={[{name: "Last month", key:0},{name: "Last year", key:1}]}>
             Last 7 days
           </DropDownButton>
         )}

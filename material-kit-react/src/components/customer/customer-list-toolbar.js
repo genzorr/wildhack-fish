@@ -1,15 +1,26 @@
+
+import { styled } from '@mui/system';
+
 import {
   Box,
   Button,
   Card,
   CardContent,
   TextField,
+  Stack,
+  IconButton,
+  SvgIcon, 
   InputAdornment,
-  SvgIcon, Typography
+  Typography
 } from '@mui/material';
+import {  } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
+
+const Input = styled('input')({
+  display: 'none',
+});
 
 export const CustomerListToolbar = (props) => (
   <Box {...props}>
@@ -29,12 +40,29 @@ export const CustomerListToolbar = (props) => (
         Customers
       </Typography>
       <Box sx={{ m: 1 }}>
-        <Button
+        {/* <label htmlFor="contained-button-file">
+          <Input accept="image/*" id="contained-button-file" multiple type="file" />
+          <Button variant="contained" component="span">
+            Upload
+          </Button>
+          <Button
           startIcon={(<UploadIcon fontSize="small" />)}
           sx={{ mr: 1 }}
         >
           Import
         </Button>
+        </label>
+         */}
+        <label htmlFor="text-button-file">
+            <Input accept="image/*" id="text-button-file" multiple type="file" />
+            <Button
+              variant="text" component="span"
+              startIcon={(<UploadIcon fontSize="small" />)}
+              sx={{ mr: 1 }}
+            >
+              Import
+            </Button>
+          </label>
         <Button
           startIcon={(<DownloadIcon fontSize="small" />)}
           sx={{ mr: 1 }}

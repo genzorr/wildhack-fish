@@ -32,7 +32,7 @@ const DropDownButton = (props) => {
             }} id='menu' onClose={handleMenuClose} anchorEl={anchorEl} open={Boolean(anchorEl)}>
                 {items.map((item, index) => {
                     { console.log(index + "" + { item }) }
-                    return <MenuItem>{item.name}</MenuItem>
+                    return <MenuItem key={index}>{item.name}</MenuItem>
                 })}
             </Menu>
         </>
