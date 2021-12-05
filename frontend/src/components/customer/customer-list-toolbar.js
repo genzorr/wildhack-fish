@@ -117,7 +117,7 @@ export const CustomerListToolbar = (props) => {
   }
   useEffect(() => {
     setTimeout(() => {
-      if (false) {
+      if (!datasetInputShown) {
         return
       }
       setDatasetLoadingShown(false)
