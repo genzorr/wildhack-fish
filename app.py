@@ -1,7 +1,7 @@
-import logging
 import sqlite3
 import threading
-from logging import Logger
+
+from flask_cors import CORS
 
 import app_service
 from flask import Flask, render_template, g, request, Response, jsonify
@@ -19,6 +19,8 @@ if getattr(sys, 'frozen', False):
     app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
 else:
     app = Flask(__name__, static_folder=static_folder, template_folder=template_folder)
+
+CORS(app)
 
 
 def get_db():
