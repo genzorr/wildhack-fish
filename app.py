@@ -1,16 +1,18 @@
 from pathlib import Path
 from predict import detect
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template
 import os
 import sys
 
+static_folder = "static/frontend/static"
+template_folder = "static/frontend"
+
 if getattr(sys, 'frozen', False):
-    template_folder = os.path.join(sys.executable, '..', './static/frontend')
-    static_folder = os.path.join(sys.executable, '..', './static/frontend/static')
-    app = Flask(__name__, template_folder=template_folder,
-                static_folder=static_folder)
+    template_folder = os.path.join(sys._MEIPASS, template_folder)
+    static_folder = os.path.join(sys._MEIPASS, static_folder)
+    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
 else:
-    app = Flask(__name__, static_folder="./static/frontend/static", template_folder="./static/frontend")
+    app = Flask(__name__, static_folder=static_folder, template_folder=template_folder)
 
 
 @app.route('/')
