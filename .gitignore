@@ -6,4 +6,4 @@ frontend/out
 build
 dist
 *.pt
-data
+*.db
