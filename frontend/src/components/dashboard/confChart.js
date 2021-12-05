@@ -77,11 +77,11 @@ export const ConfChart = (props) => {
         callbacks: {
             label: function(context) {
                 let label = context.dataset.label || '';
-                label += ": " + context.parsed.y;
-                const addLabels = ["Datasets"];
+                label += ": " + context.parsed.y.toFixed(2);
+                const addLabels = ["Datasets:"];
 
                 if (context.raw.datasets) {
-                  addLabels.push(...context.raw.datasets.map(e =>`${e.name}: ${e.value}`))
+                  addLabels.push(...context.raw.datasets.map(e =>`${e.name}: ${e.value.toFixed(2)}`))
                 }
                 return [label, ...addLabels];
             }

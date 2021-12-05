@@ -71,7 +71,7 @@ export const Statistics = (props) => {
             label: function(context) {
                 let label = context.dataset.label || '';
                 label += ": " + context.parsed.y;
-                const addLabels = ["Datasets"];
+                const addLabels = ["Datasets:"];
 
                 if (context.raw.datasets) {
                   addLabels.push(...context.raw.datasets.map(e =>`${e.name}: ${e.value}`))
