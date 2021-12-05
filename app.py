@@ -1,5 +1,6 @@
 import logging
 import sqlite3
+import threading
 from logging import Logger
 
 import app_service
@@ -73,7 +74,9 @@ def add_dataset():
     request_data = request.get_json()
 
     try:
-        app_service.add_dataset(get_db(), request_data['name'], request_data['path'])
+        thread = threading.Thread(target=app_service.add_dataset,
+                                  args=(request_data['name'], request_data['path']), daemon=True)
+        thread.start()
     except sqlite3.IntegrityError as e:
         print(e)
         return Response(status=400)

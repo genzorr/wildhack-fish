@@ -1,11 +1,27 @@
 import datetime
+import sqlite3
 from pathlib import Path
 
 from predict import detect
 from query_db import execute, find_one, find_all
 
+DATABASE = './database.db'
 
-def add_dataset(db, name, path):
+
+def make_dicts(cursor, row):
+    return dict((cursor.description[idx][0], value)
+                for idx, value in enumerate(row))
+
+
+def get_db():
+    db = sqlite3.connect(DATABASE, detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES)
+    db.row_factory = make_dicts
+
+    return db
+
+
+def add_dataset(name, path):
+    db = get_db()
     execute(db, 'INSERT INTO datasets (name, path, status, date) VALUES (?, ?, ?, ?)',
             (name, path, 'loaded', datetime.datetime.now()))
 
