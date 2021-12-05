@@ -86,6 +86,9 @@ export const AnalyzedSetResults = ({ photos, ...rest }) => {
                     key={customer.name}
                     selected={selectedCustomerIds.indexOf(customer.name) !== -1}
                   >
+                       <TableCell>
+                    {customer.name}
+                    </TableCell>
                   <TableCell>
                     {customer.date}
                     </TableCell>

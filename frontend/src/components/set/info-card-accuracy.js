@@ -30,7 +30,7 @@ export const InfoCardAccuracy = (props) => {
             color="textPrimary"
             variant="h4"
           >
-            {accuracy}
+            {accuracy.toFixed(2)}
           </Typography>
         </Grid>
         <Grid item>
