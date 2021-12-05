@@ -20,8 +20,9 @@ const Customers = () => {
       for (const value of response.data) {
         const valueDate = new Date(value.date);
 
-        value.date = valueDate.toISOString();
+        value.date = `${valueDate.getHours()}:${valueDate.getMinutes()} ${valueDate.getDate()}/${valueDate.getMonth()}/${valueDate.getFullYear()}`;
         value.timestamp = valueDate.getTime();
+        value.conf = value.conf.toFixed(2)
       }
 
       updateAnalyzedSets(response.data.sort((a,b) => b.timestamp - a.timestamp))
