@@ -22,12 +22,29 @@ const Customers = () => {
 
   const [analyzed_sets, updateAnalyzedSets] = useState([])
 
+
+
   const onDbRequiresReload = () => {
     axios
     .get("/datasets")
     .then((response) => {
       console.log(response)
-      updateAnalyzedSets(response.data)
+      const data = {};
+      for (const value of response.data) {
+        const valueDate = new Date(value.date);
+         const date = `${valueDate.getDate()}/${valueDate.getMonth()}/${valueDate.getFullYear()}`;
+         const dateObj = new Date(date);
+
+         if (!(date in data)) {
+           console.log(date, data)
+           data[date] = {
+             timestamp: dateObj.getTime(),
+             ...value   
+           }
+         }
+      }
+
+      updateAnalyzedSets(Object.values(data).sort((a,b) => a.timestamp - b.timestamp))
     });
   }
 
