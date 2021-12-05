@@ -3,14 +3,14 @@ import { Box, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/mate
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export const Statistics = (props) => {
+export const ConfChart = (props) => {
   const theme = useTheme();
 
   const [data, setData] = useState([]);
   const dataOptions = {
     datasets: [
       {
-        label: 'Количество',
+        label: 'Уверенность в результате',
         // data: [65, 59, 80, 81, 56, 55, 40],
         data,
         fill: false,
@@ -35,11 +35,12 @@ export const Statistics = (props) => {
              datasets: []
            }
          }
-         data[date].y += value.count;
-         data[date].datasets.push({name: value.name, value: value.count});
+         data[date].y += value.conf;
+         data[date].datasets.push({name: value.name, value: value.conf});
       }
 
-      setData(Object.values(data).sort((a,b) => a.timestamp - b.timestamp));
+
+      setData(Object.values(data).sort((a,b) => a.timestamp - b.timestamp).map(e => e.y / e.datasets.length));
     }).catch(err => {
       console.error(err);
     })
@@ -84,7 +85,7 @@ export const Statistics = (props) => {
 
   return (
     <Card {...props}>
-      <CardHeader title="Статистика изменения количества"/>
+      <CardHeader title="Статистика уверенности в распознавании"/>
       <Divider />
       <CardContent>
         <Box
