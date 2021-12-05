@@ -1,4 +1,4 @@
-export const analyzed_sets=[{
+export const analyzed_sets_const=[{
     id: 0,
     date: "10-11-2021",
     pics: 687,
