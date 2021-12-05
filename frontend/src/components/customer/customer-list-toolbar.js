@@ -20,13 +20,50 @@ import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
 import FolderIcon from '../../icons/folder';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
 
 const Input = styled('input')({
   display: 'none',
 });
 
-export const CustomerListToolbar = (props) => (
-  <Box {...props}>
+const zalupaWidget = (props) => {
+  useEffect(() => {
+    window.addEventListener('dragover', e => {
+      e.preventDefault()
+    })
+    window.addEventListener('drop' , e => {
+      e.preventDefault()
+
+            // Process all of the items.
+      for (const item of e.dataTransfer.items) {
+        // kind will be 'file' for file/directory entries.
+        if (item.kind === 'file') {
+          const entry = item.webkitGetAsEntry();
+          console.log(entry);
+        }
+      }
+    })
+  }, [])
+  return (<Box sx={{ width: 100, height: 25, backgroundColor:"#E9E9E9"}}  >
+          <Typography>Перенесите сюда свои файлы</Typography>
+          </Box>)
+}
+
+export const CustomerListToolbar = (props) => {
+  const {onFileImport} = props
+  
+  const [fileString, setFileString] = useState(null)
+  const onImportEnterClick = (e) => {
+    if(e.keyCode == 13){
+      console.log('value', e.target.value);
+
+      // TODO send to server this stuff
+   }
+  }
+
+  return (<Box {...props}>
     <Box
       sx={{
         alignItems: 'baseline',
@@ -75,12 +112,14 @@ export const CustomerListToolbar = (props) => (
         </Button>
       </Box> */}
     </Box>
+
+     
     <Box sx={{ mt: 2 }}>
       <Card>
-        <CardHeader title="Загрузка новых данных" subheader='Для начала работы нажмите "Загрузить"'>
+        <CardHeader title="Загрузка новых данных" subheader='Для начала работы нажмите "Загрузить" или введите путь до папки с файлами'>
         </CardHeader>
         <CardContent sx={{ mt: -7}}>
-
+          {/* {zalupaWidget()} */}
           <Box sx={{
             alignItems: 'center',
             display: 'flex',
@@ -89,24 +128,29 @@ export const CustomerListToolbar = (props) => (
             justifyContent: 'flex-start'
           }}>
 
+            <Box sx={{ marginTop: "16px", marginRight: "12px"}}>
             <FolderIcon fontSize="small" sx={{
               height: 24,
               width: 24,
               marginRight: 1
             }}
             />
-            <TextField id="standard-basic" label="Выбранный файл" variant="standard" />
+              </Box>
 
-            <label htmlFor="text-button-file">
+      
+            <TextField sx={{ minWidth: "40%", maxLines: 2,
+            maxWidth: "80%", wordWrap:"true", flexWrap:"true", }} id="standard-basic" label="Выбранная папка" value={fileString} variant="standard" onKeyDown={onImportEnterClick} onChange={(e) => { setFileString(e.target.value)}} />
+
+            <label  htmlFor="text-button-file">
               <Input onChange={(event) => {
                 console.log(event)
-              }} accept="image/*" id="text-button-file" multiple type="file" />
+              }} accept="image/*" id="text-button-file" multiple type="file" webkitdirectory='true'/>
               <Button
 
                 label="Выбранный файл"
                 variant="text" component="span"
                 startIcon={(<UploadIcon fontSize="small" />)}
-                sx={{ mr: 1, marginTop: 2 }}
+                sx={{ mr: 1, marginTop: 2, marginLeft: "16px" }}
               >
                 Загрузка
               </Button>
@@ -157,5 +201,9 @@ export const CustomerListToolbar = (props) => (
         </CardContent>
       </Card>
     </Box> */}
-  </Box>
-);
+  </Box>)
+}
+
+CustomerListToolbar.propTypes = {
+  onFileImport : PropTypes.func
+}

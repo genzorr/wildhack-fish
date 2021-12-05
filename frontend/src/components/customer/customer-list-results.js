@@ -16,6 +16,7 @@ import {
   Typography
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
+import NextLink from 'next/link';
 
 export const CustomerListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -96,50 +97,54 @@ export const CustomerListResults = ({ customers, ...rest }) => {
             </TableHead>
             <TableBody>
               {customers.slice(0, limit).map((customer) => (
-                <TableRow
-                  hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                >
-                  {/* <TableCell padding="checkbox">
+                    <NextLink href={`set/${customer.id}`} passHref>
+
+                  <TableRow
+                    hover
+                    key={customer.id}
+                    selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  >
+                        
+                    {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedCustomerIds.indexOf(customer.id) !== -1}
                       onChange={(event) => handleSelectOne(event, customer.id)}
                       value="true"
                     />
                   </TableCell> */}
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      {/* <Avatar
+                    <TableCell>
+
+                      <Box
+                        sx={{
+                          alignItems: 'center',
+                          display: 'flex'
+                        }}
+                      >
+                        {/* <Avatar
                         src={customer.avatarUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
                       </Avatar> */}
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.date}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    {customer.pics}
-                  </TableCell>
-                  <TableCell>
-                    {`${customer.count}`}
-                  </TableCell>
-                  <TableCell>
-                    {customer.degree}
-                  </TableCell>
-          
-                </TableRow>
+                        <Typography
+                          color="textPrimary"
+                          variant="body1"
+                        >
+                          {customer.date}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      {customer.pics}
+                    </TableCell>
+                    <TableCell>
+                      {`${customer.count}`}
+                    </TableCell>
+                    <TableCell>
+                      {customer.degree}
+                    </TableCell>                 
+                  </TableRow>
+                  </NextLink>
               ))}
             </TableBody>
           </Table>
