@@ -67,7 +67,8 @@ export const CustomerListResults = ({ customers, ...rest }) => {
     <Card {...rest}>
       <PerfectScrollbar>
         <Box sx={{ minWidth: 1050 }}>
-          <Table>
+          <Table sx={{maxHeight: "30rem",
+overflow: "auto",}}>
             <TableHead>
               <TableRow>
                 {/* <TableCell padding="checkbox">

@@ -1,6 +1,8 @@
 
-import { styled } from '@mui/system';
-
+import { flexbox, styled } from '@mui/system';
+import { Container, Grid } from '@mui/material';
+import { TransitionGroup } from 'react-transition-group';
+import { Collapse } from '@mui/material';
 import {
   Box,
   Button,
@@ -22,7 +24,8 @@ import { Download as DownloadIcon } from '../../icons/download';
 import FolderIcon from '../../icons/folder';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { LoadingCart } from './loading-cart';
+import { Grow } from '@mui/material';
 
 const Input = styled('input')({
   display: 'none',
@@ -33,10 +36,10 @@ const zalupaWidget = (props) => {
     window.addEventListener('dragover', e => {
       e.preventDefault()
     })
-    window.addEventListener('drop' , e => {
+    window.addEventListener('drop', e => {
       e.preventDefault()
 
-            // Process all of the items.
+      // Process all of the items.
       for (const item of e.dataTransfer.items) {
         // kind will be 'file' for file/directory entries.
         if (item.kind === 'file') {
@@ -46,22 +49,55 @@ const zalupaWidget = (props) => {
       }
     })
   }, [])
-  return (<Box sx={{ width: 100, height: 25, backgroundColor:"#E9E9E9"}}  >
-          <Typography>Перенесите сюда свои файлы</Typography>
-          </Box>)
+  return (<Box sx={{ width: 100, height: 25, backgroundColor: "#E9E9E9" }}  >
+    <Typography>Перенесите сюда свои файлы</Typography>
+  </Box>)
+}
+
+const AnimatingBoi = (props) => {
+  const {show} = props
+  console.log(`AnimatingBoi ${show}`)
+  return (<Grow in={show} >
+    {show &&
+    <Grid sx={{ marginTop: "16px" }} item
+      lg={3}
+      sm={6}
+      xl={3}
+      xs={12}
+    >
+      <LoadingCart />
+    </Grid>}
+        </Grow>)
+}
+AnimatingBoi.props = {
+  show : PropTypes.bool
 }
 
 export const CustomerListToolbar = (props) => {
-  const {onFileImport} = props
-  
+  const { onFileImport, isInLoadingState } = props
+
   const [fileString, setFileString] = useState(null)
   const onImportEnterClick = (e) => {
-    if(e.keyCode == 13){
+    if (e.keyCode == 13) {
       console.log('value', e.target.value);
 
       // TODO send to server this stuff
-   }
+    }
   }
+
+  const [show, setShow] = useState(isInLoadingState)
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (show) {
+        return
+      }
+      setShow(true)
+
+    }, 5000)
+    return () => { clearTimeout()}
+
+  }, [show])
 
   return (<Box {...props}>
     <Box
@@ -113,12 +149,12 @@ export const CustomerListToolbar = (props) => {
       </Box> */}
     </Box>
 
-     
+
     <Box sx={{ mt: 2 }}>
       <Card>
         <CardHeader title="Загрузка новых данных" subheader='Для начала работы нажмите "Загрузить" или введите путь до папки с файлами'>
         </CardHeader>
-        <CardContent sx={{ mt: -7}}>
+        <CardContent sx={{ mt: -7 }}>
           {/* {zalupaWidget()} */}
           <Box sx={{
             alignItems: 'center',
@@ -128,23 +164,25 @@ export const CustomerListToolbar = (props) => {
             justifyContent: 'flex-start'
           }}>
 
-            <Box sx={{ marginTop: "16px", marginRight: "12px"}}>
-            <FolderIcon fontSize="small" sx={{
-              height: 24,
-              width: 24,
-              marginRight: 1
-            }}
-            />
-              </Box>
+            <Box sx={{ marginTop: "16px", marginRight: "12px" }}>
+              <FolderIcon fontSize="small" sx={{
+                height: 24,
+                width: 24,
+                marginRight: 1
+              }}
+              />
+            </Box>
 
-      
-            <TextField sx={{ minWidth: "40%", maxLines: 2,
-            maxWidth: "80%", wordWrap:"true", flexWrap:"true", }} id="standard-basic" label="Выбранная папка" value={fileString} variant="standard" onKeyDown={onImportEnterClick} onChange={(e) => { setFileString(e.target.value)}} />
 
-            <label  htmlFor="text-button-file">
+            <TextField sx={{
+              minWidth: "40%", maxLines: 2,
+              maxWidth: "80%", wordWrap: "true", flexWrap: "true",
+            }} id="standard-basic" label="Выбранная папка" value={fileString} variant="standard" onKeyDown={onImportEnterClick} onChange={(e) => { setFileString(e.target.value) }} />
+
+            <label htmlFor="text-button-file">
               <Input onChange={(event) => {
                 console.log(event)
-              }} accept="image/*" id="text-button-file" multiple type="file" webkitdirectory='true'/>
+              }} accept="image/*" id="text-button-file" multiple type="file" webkitdirectory='true' />
               <Button
 
                 label="Выбранный файл"
@@ -175,6 +213,27 @@ export const CustomerListToolbar = (props) => {
           </Box>
         </CardContent>
       </Card>
+
+      {console.log(`loading card should be visible : ${show}`)}
+      {/* <TransitionGroup> */}
+
+      {show ?  <AnimatingBoi show={show} /> : <> </>}       
+      {/* <flexbox >
+      <Grow in={show} >
+        {show &&
+        <Grid sx={{ marginTop: "16px" }} item
+          lg={3}
+          sm={6}
+          xl={3}
+          xs={12}
+        >
+          <LoadingCart />
+        </Grid>}
+            </Grow>
+
+        </flexbox> */}
+        {/* </TransitionGroup> */}
+
     </Box>
     {/* <Box sx={{ mt: 3 }}>
       <Card>
@@ -205,5 +264,10 @@ export const CustomerListToolbar = (props) => {
 }
 
 CustomerListToolbar.propTypes = {
-  onFileImport : PropTypes.func
+  onFileImport: PropTypes.func,
+  isInLoadingState: PropTypes.bool.isRequired
 }
+
+CustomerListToolbar.defaultProps = {
+  isInLoadingState: false
+};
