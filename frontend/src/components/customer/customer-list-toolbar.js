@@ -70,7 +70,7 @@ const DatasetNameInput = (props) => {
         <TextField sx={{
           minWidth: "41%", maxLines: 2,
           maxWidth: "80%", wordWrap: "true", flexWrap: "true",
-        }} id="standard-basic" label="Название датасета" value={datasetName} variant="standard" onChange={(e) => { setDatasetName(e.target.value) }} />
+        }} id="standard-basic" label="Введите название датасета" value={datasetName} variant="standard" onChange={(e) => { setDatasetName(e.target.value) }} />
 
         <Button sx={{ mx: 2, mt: 1 }} onClick={() => { handleClick() }}>
           <Typography >Отправить</Typography>

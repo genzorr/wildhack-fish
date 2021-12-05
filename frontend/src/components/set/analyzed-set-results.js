@@ -2,7 +2,9 @@ import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import NextLink from 'next/link';
+import { Empty } from 'antd';
+import 'antd/dist/antd.css';
+
 
 import {
     Avatar,
@@ -25,38 +27,6 @@ export const AnalyzedSetResults = ({ photos, ...rest }) => {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(0);
 
-    const handleSelectAll = (event) => {
-        let newSelectedCustomerIds;
-
-        if (event.target.checked) {
-            newSelectedCustomerIds = photos.map((photo) => photo.id);
-        } else {
-            newSelectedCustomerIds = [];
-        }
-
-        setSelectedCustomerIds(newSelectedCustomerIds);
-    };
-
-    const handleSelectOne = (event, id) => {
-        const selectedIndex = selectedCustomerIds.indexOf(id);
-        let newSelectedCustomerIds = [];
-
-        if (selectedIndex === -1) {
-            newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-        } else if (selectedIndex === 0) {
-            newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-        } else if (selectedIndex === selectedCustomerIds.length - 1) {
-            newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelectedCustomerIds = newSelectedCustomerIds.concat(
-                selectedCustomerIds.slice(0, selectedIndex),
-                selectedCustomerIds.slice(selectedIndex + 1)
-            );
-        }
-
-        setSelectedCustomerIds(newSelectedCustomerIds);
-    };
-
     const handleLimitChange = (event) => {
         setLimit(event.target.value);
     };
@@ -67,85 +37,97 @@ export const AnalyzedSetResults = ({ photos, ...rest }) => {
 
     return (
         <Card {...rest}>
-            <PerfectScrollbar>
-                <Box sx={{ minWidth: 1050 }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell> */}
-                                <TableCell>
+     
+        {(photos.length == 0)
+          ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          : <Box sx={{ minWidth: 1050}}> <PerfectScrollbar>
+                        <Box sx={{ minWidth: 1050 }}>
+
+            <Table sx={{
+            maxHeight: "30rem",
+            overflow: "auto",
+          }}>
+            <TableHead>
+              <TableRow>
+                {/* <TableCell padding="checkbox">
+                <Checkbox
+                  checked={selectedCustomerIds.length === photos.length}
+                  color="primary"
+                  indeterminate={
+                    selectedCustomerIds.length > 0
+                    && selectedCustomerIds.length < photos.length
+                  }
+                  onChange={handleSelectAll}
+                />
+              </TableCell> */}
+                   <TableCell>
+                                    Файл
+                                </TableCell>
+                           <TableCell>
                                     Дата фотографии
                                 </TableCell>
-                                <TableCell>
-                                    файл
-                                </TableCell>
+                           
                                 <TableCell>
                                     Кол-во определённых рыб
                                 </TableCell>
                                 <TableCell>
-                                    Средняя степень уверенности
+                                    Cтепень уверенности
                                 </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {photos.slice(0, limit).map((photo) => {
-                                console.log(photo)
-                                return <TableRow
-                                    hover
-                                    key={photo.id}
-                                    selected={selectedCustomerIds.indexOf(photo.id) !== -1}
-                                >
-                                    <TableCell>
-                                        <Box
-                                            sx={{
-                                                alignItems: 'center',
-                                                display: 'flex'
-                                            }}
-                                        >
-                                            <Typography
-                                                color="textPrimary"
-                                                variant="body1"
-                                            >
-                                                {photo.date}
-                                            </Typography>
-                                        </Box>
-                                    </TableCell>
-                                    <TableCell>
-                                        {photo.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        {`${photo.count}`}
-                                    </TableCell>
-                                    <TableCell>
-                                        {photo.degree}
-                                    </TableCell>
+                                <TableCell>
+                                    Статус обработки
+                                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {photos.slice(0, limit).map((customer) => (
 
-                                </TableRow>
-                            })}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </PerfectScrollbar>
-            <TablePagination
-                component="div"
-                count={photos.length}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
-                rowsPerPageOptions={[5, 10, 25]}
-            />
-        </Card>
+                  <TableRow
+                    hover
+                    key={customer.name}
+                    selected={selectedCustomerIds.indexOf(customer.name) !== -1}
+                  >
+                  <TableCell>
+                    {customer.date}
+                    </TableCell>
+                    <TableCell>
+                      <Box
+                        sx={{
+                          alignItems: 'center',
+                          display: 'flex'
+                        }}
+                      >
+                        <Typography
+                          color="textPrimary"
+                          variant="body1"
+                        >
+                          {customer.count}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      { /* TODO later add here not count (for fish) but count for pics*/}
+                      {customer.conf}
+                    </TableCell>
+                    <TableCell>
+                      {`${customer.status}`}
+                    </TableCell>
+                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          </Box>
+    </PerfectScrollbar> 
+    <TablePagination
+      component="div"
+      count={photos.length}
+      onPageChange={handlePageChange}
+      onRowsPerPageChange={handleLimitChange}
+      page={page}
+      rowsPerPage={limit}
+      rowsPerPageOptions={[5, 10, 25]}
+    /></Box>}
+    
+  </Card>
     );
 };
 

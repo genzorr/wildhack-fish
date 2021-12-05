@@ -1,8 +1,13 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import MoneyIcon from '@mui/icons-material/Money';
+import PropTypes from 'prop-types';
 
-export const InfoCardAccuracy = (props) => (
+export const InfoCardAccuracy = (props) => {
+
+  const {accuracy} = props
+
+  return (
   <Card
     sx={{ height: '100%' }}
     {...props}
@@ -25,7 +30,7 @@ export const InfoCardAccuracy = (props) => (
             color="textPrimary"
             variant="h4"
           >
-            0.8
+            {accuracy}
           </Typography>
         </Grid>
         <Grid item>
@@ -40,30 +45,11 @@ export const InfoCardAccuracy = (props) => (
           </Avatar>
         </Grid>
       </Grid>
-      <Box
-        sx={{
-          pt: 2,
-          display: 'flex',
-          alignItems: 'center'
-        }}
-      >
-        <ArrowDownwardIcon color="error" />
-        <Typography
-          color="error"
-          sx={{
-            mr: 1
-          }}
-          variant="body2"
-        >
-          2%
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="caption"
-        >
-          За последний месяц
-        </Typography>
-      </Box>
+
     </CardContent>
-  </Card>
-);
+  </Card>)
+}
+
+InfoCardAccuracy.propTypes = {
+  accuracy: PropTypes.string
+}

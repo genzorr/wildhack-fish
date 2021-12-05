@@ -24,6 +24,7 @@ import FolderIcon from '../../icons/folder';
 import { useRouter } from 'next/router';
 import { InfoCardTotal } from './info-card-total';
 import { InfoCardAccuracy } from './info-card-accuracy';
+import PropTypes from 'prop-types';
 
 const Input = styled('input')({
   display: 'none',
@@ -31,14 +32,15 @@ const Input = styled('input')({
 
 export const AnalyzedSetInfo = (props) => {
   const router = useRouter()
-
+  const {datasetAccuracy, datasetFishAmount, datasetName} = props
+  console.log(datasetAccuracy, datasetFishAmount)
   return (<Container maxWidth={false}>
 
     <Typography
       sx={{ m: 0 }}
       variant="h4"
     >
-      Датасет номер {router.asPath}
+      Датасет: {datasetName}
     </Typography>
     <Grid
       sx={{ mt: 2 }}
@@ -53,7 +55,7 @@ export const AnalyzedSetInfo = (props) => {
         xs={12}
         sx={{ paddingLeft: 0 }}
       >
-        <InfoCardAccuracy />
+        <InfoCardAccuracy accuracy={datasetAccuracy} />
       </Grid>
       <Grid
         item
@@ -63,7 +65,7 @@ export const AnalyzedSetInfo = (props) => {
         xs={12}
         sx={{ px: 0 }}
       >
-        <InfoCardTotal />
+        <InfoCardTotal fishAmount={datasetFishAmount} />
       </Grid>
     </Grid>
   </Container>)
@@ -151,3 +153,10 @@ export const AnalyzedSetInfo = (props) => {
     </Box> */}
   </Box>
 };
+
+
+AnalyzedSetInfo.propTypes = {
+  datasetAccuracy: PropTypes.string,
+  datasetFishAmount : PropTypes.string,
+  datasetName : PropTypes.string
+}
