@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS datasets(
     conf   real        DEFAULT '0' NOT NULL,
     count  integer     DEFAULT '0' NOT NULL,
     status varchar(50) DEFAULT 'loaded' NOT NULL,
+    images integer     DEFAULT '0' NOT NULL,
     date   datetime     NOT NULL
 );
 

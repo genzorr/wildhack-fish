@@ -1,5 +1,6 @@
 import sqlite3
 import threading
+import datetime
 
 from flask_cors import CORS
 
@@ -7,6 +8,8 @@ import app_service
 from flask import Flask, render_template, g, request, Response, jsonify
 import os
 import sys
+
+from query_db import execute
 
 DATABASE = './database.db'
 
@@ -74,10 +77,13 @@ def subpage(path):
 @app.route('/datasets', methods=["PUT"])
 def add_dataset():
     request_data = request.get_json()
-
+    name, path = request_data['name'], request_data['path']
     try:
+        execute(get_db(), 'INSERT INTO datasets (name, path, status, date) VALUES (?, ?, ?, ?)',
+                (name, path, 'loaded', datetime.datetime.now()))
+
         thread = threading.Thread(target=app_service.add_dataset,
-                                  args=(request_data['name'], request_data['path']), daemon=True)
+                                  args=(name, path), daemon=True)
         thread.start()
     except sqlite3.IntegrityError as e:
         print(e)
