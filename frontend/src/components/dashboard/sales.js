@@ -1,73 +1,58 @@
-import { Bar } from 'react-chartjs-2';
-import { Box, Button, Card, CardContent, CardHeader, Dialog, DialogActions, Divider, FormControl, MenuList, Typography, useTheme } from '@mui/material';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { useState } from 'react';
-import DropDownButton from '../dropdown-button';
+import { Line } from 'react-chartjs-2';
+import { Box, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 export const Statistics = (props) => {
   const theme = useTheme();
 
-  const data = {
+  const [data, setData] = useState([]);
+  const dataOptions = {
     datasets: [
       {
-        backgroundColor: '#3F51B5',
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
-        maxBarThickness: 10
-      },
-      {
-        backgroundColor: '#EEEEEE',
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year',
-        maxBarThickness: 10
+        label: 'Количество рыб',
+        // data: [65, 59, 80, 81, 56, 55, 40],
+        data,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
   };
 
+  useEffect(() => {
+    axios.get("http://localhost:5000/datasets").then((response) => {
+      const data = {};
+      for (const value of response.data) {
+        const valueDate = new Date(value.date);
+         const date = `${valueDate.getDate()}/${valueDate.getMonth()}/${valueDate.getFullYear()}`;
+         const dateObj = new Date(date);
+
+         if (!(date in data)) {
+           data[date] = {
+             timestamp: dateObj.getTime(),
+             x: date,
+             y: 0,
+             datasets: []
+           }
+         }
+         data[date].y += value.count;
+         data[date].datasets.push({name: value.name, value: value.count});
+      }
+
+      setData(Object.values(data).sort((a,b) => a.timestamp - b.timestamp));
+    }).catch(err => {
+      console.error(err);
+    })
+  }, []);
+
+
   const options = {
-    animation: false,
+    animation: true,
     cornerRadius: 20,
     layout: { padding: 0 },
-    legend: { display: false },
+    legend: { display: false, enabled: false },
     maintainAspectRatio: false,
     responsive: true,
-    xAxes: [
-      {
-        ticks: {
-          fontColor: theme.palette.text.secondary
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        }
-      }
-    ],
-    yAxes: [
-      {
-        ticks: {
-          fontColor: theme.palette.text.secondary,
-          beginAtZero: true,
-          min: 0
-        },
-        gridLines: {
-          borderDash: [2],
-          borderDashOffset: [2],
-          color: theme.palette.divider,
-          drawBorder: false,
-          zeroLineBorderDash: [2],
-          zeroLineBorderDashOffset: [2],
-          zeroLineColor: theme.palette.divider
-        }
-      }
-    ],
     tooltips: {
       backgroundColor: theme.palette.background.paper,
       bodyFontColor: theme.palette.text.secondary,
@@ -78,26 +63,28 @@ export const Statistics = (props) => {
       intersect: false,
       mode: 'index',
       titleFontColor: theme.palette.text.primary
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+            label: function(context) {
+                let label = context.dataset.label || '';
+                label += ": " + context.parsed.y;
+                const addLabels = ["Datasets"];
+
+                if (context.raw.datasets) {
+                  addLabels.push(...context.raw.datasets.map(e =>`${e.name}: ${e.value}`))
+                }
+                return [label, ...addLabels];
+            }
+        }
+      }
     }
   };
 
-  const [clicked, setClicked] = useState(false)
-
-  const [age, setAge] = useState(10)
-  const handleChange = (selected) => {
-    setAge(selected.target.value)
-  }
   return (
     <Card {...props}>
-      <CardHeader
-        action={(   
-          <DropDownButton selectionItems={[{name: "Last month", key:0},{name: "Last year", key:1}]}>
-            Last 7 days
-          </DropDownButton>
-        )}
-        title="Latest Statistics
-      "
-      />
+      <CardHeader title="Статистика изменения количества рыб"/>
       <Divider />
       <CardContent>
         <Box
@@ -106,28 +93,12 @@ export const Statistics = (props) => {
             position: 'relative'
           }}
         >
-          <Bar
-            data={data}
+          <Line
+            data={dataOptions}
             options={options}
           />
         </Box>
       </CardContent>
-      <Divider />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2
-        }}
-      >
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon fontSize="small" />}
-          size="small"
-        >
-          <Typography>Overview</Typography>
-        </Button>
-      </Box>
     </Card>
   );
 };
