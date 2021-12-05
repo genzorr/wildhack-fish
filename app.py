@@ -9,8 +9,8 @@ import sys
 
 DATABASE = './database.db'
 
-static_folder = "static/frontend/static"
-template_folder = "static/frontend"
+static_folder = "frontend/out/static"
+template_folder = "frontend/out"
 
 if getattr(sys, 'frozen', False):
     template_folder = os.path.join(sys._MEIPASS, template_folder)

@@ -98,7 +98,7 @@ overflow: "auto",}}>
             </TableHead>
             <TableBody>
               {customers.slice(0, limit).map((customer) => (
-                    <NextLink href={`set/${customer.id}`} passHref>
+                    <NextLink key={customer.id} href={`set/${customer.id}`} passHref>
 
                   <TableRow
                     hover

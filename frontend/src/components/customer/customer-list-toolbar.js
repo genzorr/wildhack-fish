@@ -31,29 +31,6 @@ const Input = styled('input')({
   display: 'none',
 });
 
-const zalupaWidget = (props) => {
-  useEffect(() => {
-    window.addEventListener('dragover', e => {
-      e.preventDefault()
-    })
-    window.addEventListener('drop', e => {
-      e.preventDefault()
-
-      // Process all of the items.
-      for (const item of e.dataTransfer.items) {
-        // kind will be 'file' for file/directory entries.
-        if (item.kind === 'file') {
-          const entry = item.webkitGetAsEntry();
-          console.log(entry);
-        }
-      }
-    })
-  }, [])
-  return (<Box sx={{ width: 100, height: 25, backgroundColor: "#E9E9E9" }}  >
-    <Typography>Перенесите сюда свои файлы</Typography>
-  </Box>)
-}
-
 const AnimatingBoi = (props) => {
   const {show} = props
   console.log(`AnimatingBoi ${show}`)
