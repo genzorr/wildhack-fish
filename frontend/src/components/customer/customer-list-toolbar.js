@@ -86,6 +86,7 @@ DatasetNameInput.props = {
 }
 
 export const CustomerListToolbar = (props) => {
+  const { onDBUpdated } = props
   const { onFileImport, isInLoadingState } = props
 
   const [fileString, setFileString] = useState(null)
@@ -103,11 +104,13 @@ export const CustomerListToolbar = (props) => {
         path: `${fileString}`
       }
       ).then((response) => {
+        setDatasetLoadingShown(false)
+        onDBUpdated()
         console.log(response)
       })
     }
   }
-
+  
   const onImportEnterClick = (e) => {
     if (e.keyCode == 13) {
       console.log('value', e.target.value);
@@ -115,17 +118,17 @@ export const CustomerListToolbar = (props) => {
       // TODO send to server this stuff
     }
   }
-  useEffect(() => {
-    setTimeout(() => {
-      if (!datasetInputShown) {
-        return
-      }
-      setDatasetLoadingShown(false)
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (!datasetInputShown) {
+  //       return
+  //     }
+  //     setDatasetLoadingShown(false)
 
-    }, 5000)
-    return () => { clearTimeout()}
+  //   }, 5000)
+  //   return () => { clearTimeout()}
 
-  }, [datasetInputShown])
+  // }, [datasetInputShown])
 
   return (<Box {...props}>
     <Box
@@ -301,7 +304,8 @@ export const CustomerListToolbar = (props) => {
 
 CustomerListToolbar.propTypes = {
   onFileImport: PropTypes.func,
-  isInLoadingState: PropTypes.bool.isRequired
+  isInLoadingState: PropTypes.bool.isRequired,
+  onDBUpdated : PropTypes.func
 }
 
 CustomerListToolbar.defaultProps = {
