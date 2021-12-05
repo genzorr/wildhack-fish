@@ -40,7 +40,6 @@ const DropDownButton = (props) => {
 }
 
 DropDownButton.propTypes = {
-    child: PropTypes.node.isRequired,
     selectionItems: PropTypes.array
 };
 
