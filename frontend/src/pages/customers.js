@@ -4,7 +4,7 @@ import { CustomerListResults } from '../components/customer/customer-list-result
 import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { customers } from '../__mocks__/customers';
-import { analyzed_sets } from 'src/__mocks__/analysed_sets';
+import { analyzed_sets_const } from 'src/__mocks__/analysed_sets';
 import { useState, useEffect } from 'react';
 const axios = require('axios').default;
 axios.defaults.baseURL = 'http://localhost:5000';
@@ -31,7 +31,7 @@ const Customers = () => {
     });
   }
 
-  // load the first time the page is opened
+  // // load the first time the page is opened
   useEffect(() => {
     onDbRequiresReload()
     return () => {

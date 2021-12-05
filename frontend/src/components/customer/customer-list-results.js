@@ -17,6 +17,8 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 import NextLink from 'next/link';
+import { Empty } from 'antd';
+import 'antd/dist/antd.css';
 
 export const CustomerListResults = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
@@ -36,13 +38,19 @@ export const CustomerListResults = ({ customers, ...rest }) => {
 
   return (
     <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table sx={{maxHeight: "30rem",
-overflow: "auto",}}>
-            <TableHead>
-              <TableRow>
-                {/* <TableCell padding="checkbox">
+     
+          {(customers.length == 0)
+            ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            : <Box sx={{ minWidth: 1050}}> <PerfectScrollbar>
+                          <Box sx={{ minWidth: 1050 }}>
+
+              <Table sx={{
+              maxHeight: "30rem",
+              overflow: "auto",
+            }}>
+              <TableHead>
+                <TableRow>
+                  {/* <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedCustomerIds.length === customers.length}
                     color="primary"
@@ -53,76 +61,76 @@ overflow: "auto",}}>
                     onChange={handleSelectAll}
                   />
                 </TableCell> */}
-                <TableCell>
-                  Дата выборки
-                </TableCell>
-                <TableCell>
-                  Количество фотографий
-                </TableCell>
-                <TableCell>
-                  Кол-во определённых рыб
-                </TableCell>
-                <TableCell>
-                  Средняя степень уверенности
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customers.slice(0, limit).map((customer) => (
-                    <NextLink key={customer.name} href={`/set/${customer.name}`} passHref>
+                  <TableCell>
+                    Дата выборки
+                  </TableCell>
+                  <TableCell>
+                    Количество фотографий
+                  </TableCell>
+                  <TableCell>
+                    Кол-во определённых рыб
+                  </TableCell>
+                  <TableCell>
+                    Средняя степень уверенности
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {customers.slice(0, limit).map((customer) => (
+                  <NextLink key={customer.name} href={`/set/${customer.name}`} passHref>
 
-                  <TableRow
-                    hover
-                    key={customer.name}
-                    selected={selectedCustomerIds.indexOf(customer.name) !== -1}
-                  >
-                        
-                    {/* <TableCell padding="checkbox">
+                    <TableRow
+                      hover
+                      key={customer.name}
+                      selected={selectedCustomerIds.indexOf(customer.name) !== -1}
+                    >
+
+                      {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedCustomerIds.indexOf(customer.id) !== -1}
                       onChange={(event) => handleSelectOne(event, customer.id)}
                       value="true"
                     />
                   </TableCell> */}
-                    <TableCell>
+                      <TableCell>
 
-                      <Box
-                        sx={{
-                          alignItems: 'center',
-                          display: 'flex'
-                        }}
-                      >
-                        {/* <Avatar
+                        <Box
+                          sx={{
+                            alignItems: 'center',
+                            display: 'flex'
+                          }}
+                        >
+                          {/* <Avatar
                         src={customer.avatarUrl}
                         sx={{ mr: 2 }}
                       >
                         {getInitials(customer.name)}
                       </Avatar> */}
-                        <Typography
-                          color="textPrimary"
-                          variant="body1"
-                        >
-                          {customer.date}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      { /* TODO later add here not count (for fish) but count for pics*/}
-                      {customer.count}
-                    </TableCell>
-                    <TableCell>
-                      {`${customer.count}`}
-                    </TableCell>
-                    <TableCell>
-                      {customer.conf}
-                    </TableCell>                 
-                  </TableRow>
+                          <Typography
+                            color="textPrimary"
+                            variant="body1"
+                          >
+                            {customer.date}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        { /* TODO later add here not count (for fish) but count for pics*/}
+                        {customer.count}
+                      </TableCell>
+                      <TableCell>
+                        {`${customer.count}`}
+                      </TableCell>
+                      <TableCell>
+                        {customer.conf}
+                      </TableCell>
+                    </TableRow>
                   </NextLink>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
+                ))}
+              </TableBody>
+            </Table>
+            </Box>
+      </PerfectScrollbar> 
       <TablePagination
         component="div"
         count={customers.length}
@@ -131,7 +139,8 @@ overflow: "auto",}}>
         page={page}
         rowsPerPage={limit}
         rowsPerPageOptions={[5, 10, 25]}
-      />
+      /></Box>}
+      
     </Card>
   );
 };

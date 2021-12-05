@@ -66,13 +66,13 @@ const DatasetNameInput = (props) => {
   return (<Grow in={datasetDetailsInputdatasetLoadingShown} >
     {datasetDetailsInputdatasetLoadingShown &&
 
-      <Box >
+      <Box>
         <TextField sx={{
-          minWidth: "40%", maxLines: 2,
+          minWidth: "41%", maxLines: 2,
           maxWidth: "80%", wordWrap: "true", flexWrap: "true",
         }} id="standard-basic" label="Название датасета" value={datasetName} variant="standard" onChange={(e) => { setDatasetName(e.target.value) }} />
 
-        <Button sx={{ marginTop: "12px", marginStart: "16px" }} onClick={() => { handleClick() }}>
+        <Button sx={{ mx: 2, mt: 1 }} onClick={() => { handleClick() }}>
           <Typography >Отправить</Typography>
         </Button>
       </Box>
@@ -110,7 +110,7 @@ export const CustomerListToolbar = (props) => {
       })
     }
   }
-  
+
   const onImportEnterClick = (e) => {
     if (e.keyCode == 13) {
       console.log('value', e.target.value);
@@ -244,7 +244,7 @@ export const CustomerListToolbar = (props) => {
               variant="outlined"
             /> */}
           </Box>
-          <Box>
+          <Box sx={{marginLeft: "35px", marginTop: "16px"}}>
             {datasetInputShown ? <DatasetNameInput datasetDetailsInputdatasetLoadingShown={datasetInputShown} onEnterClicked={handleNameSelectedClick} /> : <> </>}
 
           </Box>

@@ -5,7 +5,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import { ConfChart } from '../components/dashboard/confChart';
 
 const axios = require('axios').default;
-axios.defaults.baseURL = 'http://0.0.0.0:5000';
+axios.defaults.baseURL = 'http://localhost:5000';
 
 
 const Dashboard = () => (
