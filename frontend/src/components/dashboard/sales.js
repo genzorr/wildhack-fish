@@ -24,7 +24,7 @@ export const Statistics = (props) => {
       const data = {};
       for (const value of response.data) {
         const valueDate = new Date(value.date);
-         const date = `${valueDate.getDate()}/${valueDate.getMonth()}/${valueDate.getFullYear()}`;
+         const date = `${valueDate.getFullYear()}/${valueDate.getMonth() + 1}/${valueDate.getDate()}`;
          const dateObj = new Date(date);
 
          if (!(date in data)) {
@@ -47,6 +47,7 @@ export const Statistics = (props) => {
 
 
   const options = {
+    id: 'count',
     animation: true,
     cornerRadius: 20,
     layout: { padding: 0 },
@@ -94,6 +95,7 @@ export const Statistics = (props) => {
           }}
         >
           <Line
+            id={'count'}
             data={dataOptions}
             options={options}
           />

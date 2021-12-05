@@ -1,4 +1,3 @@
-import datetime
 import sqlite3
 from pathlib import Path
 
@@ -25,9 +24,9 @@ def add_dataset(name, path):
 
     detect.run(db=db, dataset_name=name, agnostic_nms=False, augment=False, classes=None, conf_thres=0.2, device='',
                dnn=False,
-               exist_ok=True,
+               exist_ok=False,
                half=False, hide_conf=False, hide_labels=False, imgsz=[1280, 1280], iou_thres=0.45,
-               max_det=50, name='exp', nosave=True, project=Path('static/detect'), save_conf=False,
+               max_det=50, name='exp', nosave=False, project=Path('static/detect'), save_conf=False,
                save_crop=False, save_txt=False, source=path, update=False, view_img=False,
                visualize=False)
 

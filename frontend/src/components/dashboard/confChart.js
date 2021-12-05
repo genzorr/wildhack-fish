@@ -7,16 +7,19 @@ export const ConfChart = (props) => {
   const theme = useTheme();
 
   const [data, setData] = useState([]);
+  const [labels, setLabels] = useState([]);
+
   const dataOptions = {
     datasets: [
       {
         label: 'Уверенность в результате',
-        // data: [65, 59, 80, 81, 56, 55, 40],
-        data,
+        data: data,
+        // data,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
       }
     ],
+    // labels
   };
 
   useEffect(() => {
@@ -24,7 +27,7 @@ export const ConfChart = (props) => {
       const data = {};
       for (const value of response.data) {
         const valueDate = new Date(value.date);
-         const date = `${valueDate.getDate()}/${valueDate.getMonth()}/${valueDate.getFullYear()}`;
+         const date = `${valueDate.getFullYear()}/${valueDate.getMonth() + 1}/${valueDate.getDate()}`;
          const dateObj = new Date(date);
 
          if (!(date in data)) {
@@ -39,8 +42,11 @@ export const ConfChart = (props) => {
          data[date].datasets.push({name: value.name, value: value.conf});
       }
 
+      setData(Object.values(data).sort((a,b) => a.timestamp - b.timestamp).map(e => {
+        e.y = e.y / e.datasets.length;
 
-      setData(Object.values(data).sort((a,b) => a.timestamp - b.timestamp).map(e => e.y / e.datasets.length));
+        return e
+      }));
     }).catch(err => {
       console.error(err);
     })
@@ -48,6 +54,7 @@ export const ConfChart = (props) => {
 
 
   const options = {
+    id: 'conf',
     animation: true,
     cornerRadius: 20,
     layout: { padding: 0 },
@@ -95,6 +102,7 @@ export const ConfChart = (props) => {
           }}
         >
           <Line
+            id={'conf'}
             data={dataOptions}
             options={options}
           />
