@@ -5,7 +5,12 @@ import { LatestProducts } from '../components/dashboard/latest-products';
 import { Statistics } from '../components/dashboard/sales';
 import { DashboardLayout } from '../components/dashboard-layout';
 
+const axios = require('axios').default;
+axios.defaults.baseURL = 'http://0.0.0.0:5000';
+
+
 const Dashboard = () => (
+
   <>
     <Head>
       <title>

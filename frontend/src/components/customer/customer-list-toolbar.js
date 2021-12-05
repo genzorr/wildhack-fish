@@ -26,55 +26,109 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { LoadingCart } from './loading-cart';
 import { Grow } from '@mui/material';
+const axios = require('axios').default;
+axios.defaults.baseURL = 'http://localhost:5000';
 
 const Input = styled('input')({
   display: 'none',
 });
 
 const AnimatingBoi = (props) => {
-  const {show} = props
-  console.log(`AnimatingBoi ${show}`)
-  return (<Grow in={show} >
-    {show &&
-    <Grid sx={{ marginTop: "16px" }} item
-      lg={3}
-      sm={6}
-      xl={3}
-      xs={12}
-    >
-      <LoadingCart />
-    </Grid>}
-        </Grow>)
+  const { datasetLoadingShown } = props
+  console.log(`AnimatingBoi ${datasetLoadingShown}`)
+  return (<Grow in={datasetLoadingShown} >
+    {datasetLoadingShown &&
+      <Grid sx={{ marginTop: "16px" }} item
+        lg={3}
+        sm={6}
+        xl={3}
+        xs={12}
+      >
+        <LoadingCart />
+      </Grid>}
+  </Grow>)
 }
 AnimatingBoi.props = {
-  show : PropTypes.bool
+  datasetLoadingShown: PropTypes.bool
+}
+
+const DatasetNameInput = (props) => {
+  const { datasetDetailsInputdatasetLoadingShown, onEnterClicked } = props
+  const [datasetName, setDatasetName] = useState(null)
+
+  console.log(`DatasetNameInput ${datasetDetailsInputdatasetLoadingShown}`)
+
+
+  const handleClick = () => {
+    console.log("current chosen dataset name", datasetName)
+    onEnterClicked(datasetName)
+  }
+  return (<Grow in={datasetDetailsInputdatasetLoadingShown} >
+    {datasetDetailsInputdatasetLoadingShown &&
+
+      <Box >
+        <TextField sx={{
+          minWidth: "40%", maxLines: 2,
+          maxWidth: "80%", wordWrap: "true", flexWrap: "true",
+        }} id="standard-basic" label="Название датасета" value={datasetName} variant="standard" onChange={(e) => { setDatasetName(e.target.value) }} />
+
+        <Button sx={{ marginTop: "12px", marginStart: "16px" }} onClick={() => { handleClick() }}>
+          <Typography >Отправить</Typography>
+        </Button>
+      </Box>
+    }
+  </Grow>)
+}
+
+DatasetNameInput.props = {
+  datasetDetailsInputdatasetLoadingShown: PropTypes.bool,
+  onEnterClicked: PropTypes.func
 }
 
 export const CustomerListToolbar = (props) => {
+  const { onDBUpdated } = props
   const { onFileImport, isInLoadingState } = props
 
   const [fileString, setFileString] = useState(null)
+
+
+  const [datasetName, setDatasetName] = useState(null)
+  const [datasetInputShown, setDatasetInputShown] = useState(false)
+  const [datasetLoadingShown, setDatasetLoadingShown] = useState(isInLoadingState)
+  const handleNameSelectedClick = (datasetStringName) => {
+    if (datasetStringName != null) {
+      setDatasetInputShown(false)
+      setDatasetLoadingShown(true)
+      axios.put("/datasets", {
+        name: `${datasetStringName}`,
+        path: `${fileString}`
+      }
+      ).then((response) => {
+        setDatasetLoadingShown(false)
+        onDBUpdated()
+        console.log(response)
+      })
+    }
+  }
+  
   const onImportEnterClick = (e) => {
     if (e.keyCode == 13) {
       console.log('value', e.target.value);
-
+      setDatasetInputShown(!datasetInputShown)
       // TODO send to server this stuff
     }
   }
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (!datasetInputShown) {
+  //       return
+  //     }
+  //     setDatasetLoadingShown(false)
 
-  const [show, setShow] = useState(isInLoadingState)
+  //   }, 5000)
+  //   return () => { clearTimeout()}
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (show) {
-        return
-      }
-      setShow(true)
-
-    }, 5000)
-    return () => { clearTimeout()}
-
-  }, [show])
+  // }, [datasetInputShown])
 
   return (<Box {...props}>
     <Box
@@ -170,6 +224,8 @@ export const CustomerListToolbar = (props) => {
                 Загрузка
               </Button>
             </label>
+
+
             {/* <TextField
               fullWidth
               InputProps={{
@@ -188,16 +244,22 @@ export const CustomerListToolbar = (props) => {
               variant="outlined"
             /> */}
           </Box>
+          <Box>
+            {datasetInputShown ? <DatasetNameInput datasetDetailsInputdatasetLoadingShown={datasetInputShown} onEnterClicked={handleNameSelectedClick} /> : <> </>}
+
+          </Box>
+
         </CardContent>
       </Card>
 
-      {console.log(`loading card should be visible : ${show}`)}
+      {console.log(`loading card should be visible : ${datasetLoadingShown}`)}
       {/* <TransitionGroup> */}
 
-      {show ?  <AnimatingBoi show={show} /> : <> </>}       
+      {datasetLoadingShown ?  <AnimatingBoi datasetLoadingShown={datasetLoadingShown} /> : <> </>}       
+
       {/* <flexbox >
-      <Grow in={show} >
-        {show &&
+      <Grow in={datasetLoadingShown} >
+        {datasetLoadingShown &&
         <Grid sx={{ marginTop: "16px" }} item
           lg={3}
           sm={6}
@@ -209,7 +271,7 @@ export const CustomerListToolbar = (props) => {
             </Grow>
 
         </flexbox> */}
-        {/* </TransitionGroup> */}
+      {/* </TransitionGroup> */}
 
     </Box>
     {/* <Box sx={{ mt: 3 }}>
@@ -242,7 +304,8 @@ export const CustomerListToolbar = (props) => {
 
 CustomerListToolbar.propTypes = {
   onFileImport: PropTypes.func,
-  isInLoadingState: PropTypes.bool.isRequired
+  isInLoadingState: PropTypes.bool.isRequired,
+  onDBUpdated : PropTypes.func
 }
 
 CustomerListToolbar.defaultProps = {
