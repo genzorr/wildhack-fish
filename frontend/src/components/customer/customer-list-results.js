@@ -119,7 +119,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                       </TableCell>
                       <TableCell>
                         { /* TODO later add here not count (for fish) but count for pics*/}
-                        {customer.count}
+                        {customer.images}
                       </TableCell>
                       <TableCell>
                         {`${customer.count}`}

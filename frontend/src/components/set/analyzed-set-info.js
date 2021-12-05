@@ -30,19 +30,18 @@ const Input = styled('input')({
 });
 
 export const AnalyzedSetInfo = (props) => {
-    const router = useRouter()
+  const router = useRouter()
 
+  return (<Container maxWidth={false}>
 
-    return (<Container maxWidth={false}>
-
-<Typography
-        sx={{ m: 0 }}
-        variant="h4"
-      >
-        Датасет номер {router.asPath}
-      </Typography>
+    <Typography
+      sx={{ m: 0 }}
+      variant="h4"
+    >
+      Датасет номер {router.asPath}
+    </Typography>
     <Grid
-    sx={{ mt: 2}}
+      sx={{ mt: 2 }}
       container
       spacing={3}
     >
@@ -52,7 +51,7 @@ export const AnalyzedSetInfo = (props) => {
         sm={6}
         xl={3}
         xs={12}
-        sx={{ paddingLeft:0 }}
+        sx={{ paddingLeft: 0 }}
       >
         <InfoCardAccuracy />
       </Grid>
@@ -62,7 +61,7 @@ export const AnalyzedSetInfo = (props) => {
         lg={3}
         sm={6}
         xs={12}
-        sx={{ px:0 }}
+        sx={{ px: 0 }}
       >
         <InfoCardTotal />
       </Grid>
@@ -118,12 +117,12 @@ export const AnalyzedSetInfo = (props) => {
         </Button>
       </Box> */}
     </Box>
-    <Box sx={{marginTop: 2}}> 
-        <InfoCardTotal />
+    <Box sx={{ marginTop: 2 }}>
+      <InfoCardTotal />
     </Box>
 
-    <Box sx={{marginTop: 2}}>
-        <InfoCardAccuracy />
+    <Box sx={{ marginTop: 2 }}>
+      <InfoCardAccuracy />
     </Box>
     {/* <Box sx={{ mt: 3 }}>
       <Card>

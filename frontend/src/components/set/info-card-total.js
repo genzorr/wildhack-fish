@@ -1,6 +1,7 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import PeopleIcon from '@mui/icons-material/PeopleOutlined';
+import FishIcon from '../../icons/fish_icon'
 
 export const InfoCardTotal = (props) => (
   <Card {...props}>
@@ -33,7 +34,7 @@ export const InfoCardTotal = (props) => (
               width: 56
             }}
           >
-            <PeopleIcon />
+            <FishIcon />
           </Avatar>
         </Grid>
       </Grid>
