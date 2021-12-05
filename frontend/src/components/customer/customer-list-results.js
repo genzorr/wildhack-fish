@@ -73,6 +73,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   <TableCell>
                     Средняя степень уверенности
                   </TableCell>
+                  <TableCell>
+                    Статус анализа
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -123,6 +126,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                       </TableCell>
                       <TableCell>
                         {customer.conf}
+                      </TableCell>
+                      <TableCell>
+                        {customer.status}
                       </TableCell>
                     </TableRow>
                   </NextLink>
