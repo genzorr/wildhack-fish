@@ -22,8 +22,6 @@ def get_db():
 
 def add_dataset(name, path):
     db = get_db()
-    execute(db, 'INSERT INTO datasets (name, path, status, date) VALUES (?, ?, ?, ?)',
-            (name, path, 'loaded', datetime.datetime.now()))
 
     detect.run(db=db, dataset_name=name, agnostic_nms=False, augment=False, classes=None, conf_thres=0.2, device='',
                dnn=False,
@@ -34,11 +32,11 @@ def add_dataset(name, path):
                visualize=False)
 
     stat = find_one(db,
-                    "SELECT sum(count) as count, avg(conf) as conf FROM images WHERE datasetId = ? AND status = ? GROUP BY datasetId",
+                    "SELECT sum(count) as count, avg(conf) as conf, count(*) as images FROM images WHERE datasetId = ? AND status = ? GROUP BY datasetId",
                     (name, 'predicted'))
 
-    execute(db, "UPDATE datasets SET status = ?, conf = ?, count = ? WHERE name = ?",
-            ('predicted', stat['conf'], stat['count'], name))
+    execute(db, "UPDATE datasets SET status = ?, conf = ?, count = ?, images = ? WHERE name = ?",
+            ('predicted', stat['conf'], stat['count'], stat['images'], name))
 
 
 def get_datasets(db):
