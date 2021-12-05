@@ -24,7 +24,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Generate windows build
         run: |
-          pyinstaller --onefile --add-data 'static;static' --windowed app.py
+          pyinstaller --onefile --add-data 'static:static' --windowed app.py
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v2.2.4
         with:
